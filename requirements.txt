@@ -1,0 +1,4 @@
+flask
+werkzeug
+google-cloud
+google-cloud-storage

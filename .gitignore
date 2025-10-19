@@ -1,0 +1,4 @@
+__pycache__
+.venv
+file_uploads
+project_secrets.py
