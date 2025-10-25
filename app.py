@@ -7,6 +7,11 @@ import os
 from flask import Flask, flash, request, redirect, url_for, render_template
 from werkzeug.utils import secure_filename
 
+import argparse
+parser = argparse.ArgumentParser(description="Cloud database with insights.")
+parser.add_argument('--online', type=bool, default=False, help='Default turns off GCP Connection--Saves money.')
+args = parser.parse_args()
+
 import functions.upload as upload
 
 UPLOAD_FOLDER = 'file_uploads'
@@ -19,6 +24,13 @@ app.secret_key = b'446'
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
+def get_file_metadata(file):
+    return {
+        "file_type": file.mimetype
+    }
+
+    
 
 @app.route('/', methods=['GET','POST'])
 def index():
@@ -42,9 +54,15 @@ def index():
             filename = secure_filename(file.filename)
             
             #file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-            result = upload.upload_file(file, filename)
+            if args.online:
+                # only upload the file if enabled
+                result = upload.upload_file(file, filename)
+                flash(result)
+            else:
+                flash("Application is currently not uploading files.")
 
-            flash(result)
+            print(get_file_metadata(file))
+
             return redirect(request.url)
     
     
