@@ -25,9 +25,19 @@ def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
-def get_file_metadata(file):
+
+from pathlib import Path
+import tempfile
+
+def get_file_metadata(file_path : Path, filename):
+
+    stat_info = file_path.stat()
+
     return {
-        "file_type": file.mimetype
+        "filename": filename,
+        "size": stat_info.st_size,
+        "created": stat_info.st_birthtime,
+        "modified": stat_info.st_mtime
     }
 
     
@@ -61,9 +71,16 @@ def index():
             else:
                 flash("Application is currently not uploading files.")
 
-            print(get_file_metadata(file))
 
-            return redirect(request.url)
+            with tempfile.NamedTemporaryFile(delete_on_close=True) as tmp:
+                file.save(tmp)
+                tmp_path = Path(tmp.name)
+                tmp.flush()
+                os.fsync(tmp.fileno())
+                metadata = get_file_metadata(tmp_path, filename)
+                print(metadata)
+    
+        return redirect(request.url)
     
     
     return render_template('index.html')
