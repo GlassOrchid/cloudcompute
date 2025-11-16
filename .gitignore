@@ -57,3 +57,7 @@ venv.bak/
 
 project_secrets.py
 file_uploads
+R&D/
+scripts/CONNECT_PROXY.sh
+scripts/RUN_PROXY.sh
+TODO

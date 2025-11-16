@@ -15,14 +15,10 @@ args = parser.parse_args()
 
 import functions.upload as upload
 
-UPLOAD_FOLDER = 'file_uploads'
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
-
 app = Flask(__name__)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.secret_key = b'446'
 
 def allowed_file(filename):
+    ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
@@ -64,7 +60,6 @@ def index():
             # ensures the file name is safe for upload
             filename = secure_filename(file.filename)
             
-            #file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
             if args.online:
                 # only upload the file if enabled
                 result = upload.upload_file(file, filename)
@@ -91,3 +86,5 @@ def index():
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0',port=8000, debug=True)
+
+
