@@ -10,6 +10,7 @@ from werkzeug.utils import secure_filename
 import argparse
 parser = argparse.ArgumentParser(description="Cloud database with insights.")
 parser.add_argument('--online', type=bool, default=False, help='Default turns off GCP Connection--Saves money.')
+parser.add_argument('--metadata', type=bool, default=False, help='Default turns off GCP DB--Saves money.')
 args = parser.parse_args()
 
 import functions.upload as upload
@@ -79,13 +80,14 @@ def index():
                 os.fsync(tmp.fileno())
                 metadata = get_file_metadata(tmp_path, filename)
                 print(metadata)
+
+                if args.metadata:
+                    upload.upload_metadata(metadata)
     
         return redirect(request.url)
     
     
     return render_template('index.html')
-
-
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0',port=8000, debug=True)
