@@ -1,13 +1,48 @@
-<!doctype html>
-<title>Upload new File</title>
-<h1>Upload new File</h1>
-<form method=post enctype=multipart/form-data>
-    <input type=file name=file>
-    <input type=submit value=Upload>
+{% extends "layout.html" %}
+
+{% block body %}
+<h1>Upload New File</h1>
+
+<form method="post" enctype="multipart/form-data">
+
+    <div class="file-input-wrapper">
+        <label class="file-input-label">Choose File</label>
+        <input type="file" name="file" id="fileInput" required>
+    </div>
+
+    <div id="fileName" class="file-selected"></div>
+
+    <input type="submit" value="Upload">
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class="flashes">
+        {% for message in messages %}
+            <li class="flash-box">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
 </form>
 
-<body>
-    {% extends "layout.html" %}
-    {% block body %}
-    {% endblock %}
-</body>
+<script>
+document.getElementById('fileInput').addEventListener('change', function () {
+    const fileNameBox = document.getElementById('fileName');
+    if (this.files.length > 0) {
+        fileNameBox.textContent = "Selected: " + this.files[0].name;
+    } else {
+        fileNameBox.textContent = "";
+    }
+});
+</script>
+
+
+<h2 class="section-title">Dashboards</h2>
+<div class="grafana-grid">
+    <div class="grafana-card">Grafana Panel 1</div>
+    <div class="grafana-card">Grafana Panel 2</div>
+    <div class="grafana-card">Grafana Panel 3</div>
+    <div class="grafana-card">Grafana Panel 4</div>
+</div>
+
+{% endblock %}

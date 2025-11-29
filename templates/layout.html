@@ -1,12 +1,17 @@
 <!doctype html>
-<title>My Application</title>
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    <ul class=flashes>
-    {% for message in messages %}
-      <li>{{ message }}</li>
-    {% endfor %}
-    </ul>
-  {% endif %}
-{% endwith %}
-{% block body %}{% endblock %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <h1 class="title-with-logo">
+        <img src="{{ url_for('static', filename='assets/logo.png') }}" alt="Logo">
+        CloudBase
+    </h1>
+</head>
+
+<body>
+    <div class="container">
+        {% block body %}{% endblock %}
+    </div>
+</body>
+</html>
