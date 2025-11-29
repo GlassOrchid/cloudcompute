@@ -3,4 +3,5 @@ werkzeug
 google-cloud
 google-cloud-storage
 psycopg2-binary
+paramiko==3.0.0
 sshtunnel
