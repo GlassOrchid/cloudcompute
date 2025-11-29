@@ -1,3 +1,3 @@
-INSERT INTO files (name, size, created, modified, location)
-VALUES (%s, %s, NOW(), NOW(), %s)
+INSERT INTO files (name, file_type, size, created, modified, location)
+VALUES (%s, %s, %s, COALESCE(%s, NOW()), COALESCE(%s, NOW()), COALESCE(%s, ''))
 RETURNING id;

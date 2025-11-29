@@ -66,7 +66,9 @@ def upload_metadata(metadata):
             # Create a cursor and execute a query
             name = metadata['filename']
             size = metadata['size']
-            params = (name, size, f'/{name}')
+            file_type = metadata['filetype']
+
+            params = (name, file_type, size,  f'/{name}')
 
             cur.execute(INSERT_FILE_QUERY, params)
             result = cur.fetchone()[0]  # fetchone() returns a tuple
