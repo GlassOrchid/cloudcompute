@@ -32,4 +32,4 @@ def connect_postgres():
         )
         return conn
     except Exception as e:
-        print(f"Connection failed: {e}", 500)
+        print(f"Database Connection failed: {e}", 500)

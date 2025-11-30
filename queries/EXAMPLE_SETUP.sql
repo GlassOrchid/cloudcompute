@@ -1,7 +1,7 @@
 CREATE TABLE files (
     id SERIAL PRIMARY KEY,
     name TEXT NOT NULL,
-    file_type TEXT NOT NULL
+    file_type TEXT NOT NULL,
     size BIGINT NOT NULL,
     created TIMESTAMP NOT NULL DEFAULT NOW(),
     modified TIMESTAMP NOT NULL DEFAULT NOW(),

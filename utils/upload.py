@@ -18,17 +18,12 @@ from .queries import INSERT_FILE_QUERY
 def handle_upload(file, filename, args):
     """Handles uploading the file and metadata if enabled."""
     from .file import get_file_metadata
-    
-    if args.online:
-        result = upload_blob(BUCKET_NAME, file, filename)
-        flash(result)
-    else:
-        flash("Application is currently not uploading files.")
 
     # Save file temporarily for metadata
     with tempfile.NamedTemporaryFile(delete_on_close=True) as tmp:
         file.save(tmp)
         tmp_path = Path(tmp.name)
+
         tmp.flush()
         os.fsync(tmp.fileno())
 
@@ -36,7 +31,13 @@ def handle_upload(file, filename, args):
         print(metadata)
 
         if args.metadata:
-            upload_metadata(metadata)   
+            upload_metadata(metadata)  
+    
+        if args.online:
+            result = upload_blob(BUCKET_NAME, file, filename)
+            flash(result)
+        else:
+            flash("Application is currently not uploading files.") 
 
 def upload_blob(bucket_name, source_file_name, destination_blob_name):
     """Uploads given file to Google Cloud bucket"""
@@ -54,7 +55,7 @@ def upload_blob(bucket_name, source_file_name, destination_blob_name):
     generation_match_precondition = 0
 
     try:
-        blob.upload_from_file(source_file_name, if_generation_match=generation_match_precondition)
+        blob.upload_from_file(source_file_name, if_generation_match=generation_match_precondition, rewind=True)
         return f"File {source_file_name} uploaded to {destination_blob_name} in {bucket_name}."
     except Exception as e:
         print(f"Upload failed: {e}", 500)
@@ -65,17 +66,19 @@ def upload_metadata(metadata):
         with conn.cursor() as cur:
             # Create a cursor and execute a query
             name = metadata['filename']
-            size = metadata['size']
             file_type = metadata['filetype']
+            size = metadata['size']
+            created = metadata['created']
+            modified = metadata['modified']
 
-            params = (name, file_type, size,  f'/{name}')
+            params = [name, file_type, size, created, modified, f'/{name}']
 
             cur.execute(INSERT_FILE_QUERY, params)
             result = cur.fetchone()[0]  # fetchone() returns a tuple
             conn.commit()
             return f"DB entry created with ID: {result}"
     except Exception as e:
-        print(f"Connection failed: {e}", 500)
+        print(f"Upload Connection failed: {e}", 500)
     finally:
         conn.commit()
         conn.close()
