@@ -2,6 +2,7 @@ from flask import Blueprint, request, flash, redirect, render_template
 from werkzeug.utils import secure_filename
 from .file import allowed_file
 from .upload import handle_upload
+import config
 
 import argparse
 parser = argparse.ArgumentParser(description="Cloud database with insights.")
@@ -25,7 +26,7 @@ def index():
             flash('No selected file')
             return redirect(request.url)
 
-        if not allowed_file(file.filename):
+        if not allowed_file(file.filename, config.Config.ALLOWED_EXTENSIONS):
             flash('File type not allowed')
             return redirect(request.url)
 
