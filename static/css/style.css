@@ -7,7 +7,7 @@ body {
 }
 
 .container {
-    max-width: 600px;
+    max-width: 800px;
     margin: 60px auto;
     background: #161b22;
     padding: 30px;
@@ -94,7 +94,7 @@ ul.flashes li {
     background: #161b22;
     border: 1px solid #30363d;
     border-radius: 10px;
-    height: 200px;
+    width: auto;
     display: flex;
     justify-content: center;
     align-items: center;

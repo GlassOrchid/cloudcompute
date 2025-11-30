@@ -1,12 +1,4 @@
 services:
-  server:
-    build:
-      context: .
-    ports:
-      - 8000:8000
-    volumes:
-      - ./secrets/:/home/appuser/.ssh/:ro
-
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
@@ -20,5 +12,4 @@ services:
     - GF_SECURITY_ALLOW_EMBEDDING=true
 
 volumes:
-  serverapp:
   grafana-storage:
