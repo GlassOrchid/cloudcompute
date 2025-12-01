@@ -8,9 +8,11 @@ from project_secrets import (
 )
 import psycopg2
 
+# Authenticate with Google Cloud using Application Default Credentials
 def authenticate_implicit_with_adc(project_id=PROJECT_ID):
     return storage.Client(project=project_id)         
 
+# Create and return an SSH tunnel for secure database access
 def create_ssh_tunnel():
     return SSHTunnelForwarder(
         (SERVER_IP, SSH_PORT),
@@ -20,9 +22,9 @@ def create_ssh_tunnel():
         local_bind_address=('0.0.0.0', LOCAL_PORT)
     )
 
+# Establish a connection to the PostgreSQL database
 def connect_postgres():
     try:
-        # Connect to PostgreSQL
         conn = psycopg2.connect(
             host=DB_HOST,
             port=DB_PORT,

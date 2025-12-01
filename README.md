@@ -12,7 +12,6 @@ Mainstream cloud storage platforms like Google Drive, Dropbox, and iCloud are hi
 
 - Securely upload and manage files through a Virtual Private Cloud (VPC)
 - Gain real-time insights and analytics into storage usage
-- Access developer-friendly APIs for automation and integration
 - Maintain full transparency on resource usage and system performance
 
 Unlike traditional cloud services, CloudBase provides complete visibility into storage behavior and resource utilization — ideal for users who want to *build upon*, not just *use*, their cloud storage.
@@ -21,10 +20,8 @@ Unlike traditional cloud services, CloudBase provides complete visibility into s
 
 ## Features
 
-- **Secure Uploads via VPC**
+- **Secure Uploads via VPC and SSH Tunneling**
 - **Usage Statistics & Storage Analytics**
-- **Developer-Friendly APIs**
-- **Scalable Infrastructure with Kubernetes**
 - **Transparent Resource Monitoring**
 - **Dashboard for Data Insights**
 
@@ -37,21 +34,7 @@ Unlike traditional cloud services, CloudBase provides complete visibility into s
 | Cloud Platform | Google Cloud Platform (GCP) |
 | Compute | Google Kubernetes Engine (GKE) |
 | Containerization | Docker |
-| Database | Cloud SQL (PostgreSQL / MySQL) |
+| Database | Cloud SQL (PostgreSQL) |
 | Storage | Google Cloud Storage |
 | Website | Flask |
-| Analytics | GCP Monitoring, Custom APIs |
-
----
-
-##  Installation (Prototype Setup)
-
-```bash
-# Clone the repository
-git clone https://github.com/your-username/cloudbase.git
-cd cloudbase
-
-# Build Docker image
-docker build -t cloudbase .
-```
-The application will be available at http://localhost:8000.
+| Analytics | Grafana |
